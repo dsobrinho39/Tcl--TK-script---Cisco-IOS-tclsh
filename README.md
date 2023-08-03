@@ -18,6 +18,7 @@ O script oferece as seguintes opções para os interlocutores:
 5. Aguarde para falar com a telefonista (ramal 5555).
 
 Caso nenhum número seja pressionado em 10 segundos, a chamada será encaminhada para um hunt group secundário.
+Caso nenhuma ação seja selecionada o script repetirar o prompt audio (return to menu) por 3 vezes e finalizará.
 
 ## Configuração
 
