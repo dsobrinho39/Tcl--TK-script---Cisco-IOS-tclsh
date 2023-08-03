@@ -1,18 +1,25 @@
 proc menu {} {
+    set maxAttempts 3
+    set attempt 0
     set timeout 10
     set ramal ""
     puts "prompt here: Bem-vindo à URA! Pressione 1 para o setor A (ramal 1111), 2 para o setor B (ramal 2222), 3 para o setor C (ramal 3333), 4 para o setor D (ramal 4444) ou aguarde para falar com a telefonista (ramal 5555)."
 
-    while {true} {
+    while {$attempt < $maxAttempts} {
         set input [read stdin $timeout]
         if {[string length $input] > 0} {
             set ramal $input
             break
         } else {
             # Caso não seja digitado nenhum ramal em 10 segundos, encaminhar para outro hunt group
-            puts "Tempo esgotado, encaminhando para o hunt group secundário."
-            exec tclquit
+            puts "Tempo esgotado, tentativa $attempt de $maxAttempts. Encaminhando para o hunt group secundário."
+            incr attempt
         }
+    }
+
+    if {$attempt == $maxAttempts} {
+        puts "Número máximo de tentativas atingido. Encaminhando para o hunt group secundário (ramal 5555)."
+        exec tclquit
     }
 
     # Verificar se o ramal digitado é válido
@@ -37,7 +44,7 @@ proc menu {} {
             exec tclquit
         }
     } else {
-        puts "Ramal inválido. Encaminhando para o hunt group secundário(ramal 5555)."
+        puts "Ramal inválido. Encaminhando para o hunt group secundário (ramal 5555)."
         exec tclquit
     }
 }
